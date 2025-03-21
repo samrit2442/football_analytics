@@ -1,12 +1,13 @@
 library(pacman)
-p_load(tidyverse, readxl, BradleyTerry2, ggtext, showtext, ggpattern, systemfonts, grid)
+p_load(tidyverse, readxl, BradleyTerry2, ggtext, showtext, ggpattern, 
+       systemfonts, grid, magick)
 
 # Read in the data
 isl_raw <- read_excel("./data/Copy of isl_raw_data(1.9.9).xlsx")
 isl_raw2 <- isl_raw |> 
   select(-time)
 
-is.na(isl_raw2) |> colSums() |> as.data.frame() |> View()
+# is.na(isl_raw2) |> colSums() |> as.data.frame() |> View()
 
 # Clean the data
 atk_home_goals <- isl_raw2 |> 
@@ -92,10 +93,10 @@ strengths <- model$coefficients |>
 print(strengths)
 
 # Probability that MBSG is preferred over JFC
-lambda_MBSG <- strengths["Mohun Bagan Super Giant"]
-lambda_JFC <- strengths["Jamshedpur FC"]
-prob_MBSG_over_JFC <- lambda_MBSG / (lambda_MBSG + lambda_JFC)
-print(prob_MBSG_over_JFC)
+# lambda_MBSG <- strengths["Mohun Bagan Super Giant"]
+# lambda_JFC <- strengths["Jamshedpur FC"]
+# prob_MBSG_over_JFC <- lambda_MBSG / (lambda_MBSG + lambda_JFC)
+# print(prob_MBSG_over_JFC)
 
 font_add_google("Poppins", family = "poppins")
 font_add_google("Inter", family = "inter")
@@ -183,7 +184,7 @@ isl_ranks <- ggplot(strengths, aes(x = reorder(Team, Strength), y = Strength, fi
         panel.grid.minor = element_line(colour = "gray40")) +
   geom_text(aes(label = round(Strength, 2)), hjust = -0.1, size = 6.5) +
   geom_hline(yintercept = 0, color = "black", linewidth = 1)
-
+isl_ranks
 
 # Save the plot
 ggsave("ISL_Teams_Strength_Rankings.svg", isl_ranks,
