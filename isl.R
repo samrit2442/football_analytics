@@ -10,13 +10,13 @@ isl_raw2 <- isl_raw |>
 # is.na(isl_raw2) |> colSums() |> as.data.frame() |> View()
 
 # Clean the data
-atk_home_goals <- isl_raw2 |> 
-  filter(home_team == "Atletico de Kolkata") |>
-  summarise(total_home_goals = sum(home_team_score))
+# atk_home_goals <- isl_raw2 |> 
+#   filter(home_team == "Atletico de Kolkata") |>
+#   summarise(total_home_goals = sum(home_team_score))
   
 
 names(isl_raw2)
-dat <- isl_raw2[1:809, c(3,4,6,7)]
+dat <- isl_raw2[1:829, c(3,4,6,7)]
 
 standings <- dat |> 
   pivot_longer(cols = c(home_team, away_team), 
@@ -76,7 +76,7 @@ coef_KBFC <- coef(model)["..Kerala Blasters FC"]
 coef_MCFC <- coef(model)["..Mumbai City FC"]
 coef_EBFC <- coef(model)["..East Bengal FC"]
 coef_MBSG <- coef(model)["..Mohun Bagan Super Giant"]
-
+coef_PFC <- coef(model)["..Punjab FC"]
 
 
 # Calculate strength parameters
@@ -84,7 +84,7 @@ strengths <- model$coefficients |>
   as.data.frame() |>
   rownames_to_column(var = "Team") |>
   add_row(Team = "..Atletico de Kolkata", `model$coefficients` = 0) |>
-  mutate(Strength = exp(`model$coefficients`),
+  mutate(Strength = round(exp(`model$coefficients`), 3),
          Team = str_remove_all(Team, "\\..")) |> 
   select(Team, Strength) |>
   arrange(desc(Strength))
