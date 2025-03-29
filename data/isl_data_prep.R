@@ -18,6 +18,6 @@ isl_raw3 <- isl_raw2 |>
                 home_team_scorer, home_team_scorer_time,
                 away_team_scorer, away_team_scorer_time)
 
-writexl::write_xlsx(isl_raw3, './data/isl_raw3.xlsx')
+# writexl::write_xlsx(isl_raw3, './data/isl_raw3.xlsx')
 
 

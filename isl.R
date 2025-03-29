@@ -192,4 +192,32 @@ ggsave("ISL_Teams_Strength_Rankings.svg", isl_ranks,
 # ggsave("ISL_Teams_Strength_Rankings.png", isl_ranks,
 #        dpi = 900, limitsize = T, width = 15, height = 10, units = "in")
 
+
+
+# Read Data in Longer Format
+
+isl_long <- read_excel("./data/isl_raw3.xlsx")
+
+glimpse(isl_long)
+
+isl_long_cleaned <- isl_long |> 
+  dplyr::mutate(home_team_score = as.numeric(home_team_score),
+                away_team_score = as.numeric(away_team_score))
+
+to_remove <- isl_long |> 
+  dplyr::mutate(home_team_score = as.numeric(home_team_score),
+                away_team_score = as.numeric(away_team_score)) |> 
+  dplyr::filter(home_team_score > 0 | away_team_score > 0) |> 
+  dplyr::filter(is.na(home_team_scorer) & is.na(away_team_scorer))
+
+isl_long_cleaned_final <- anti_join(isl_long_cleaned, to_remove)
+
+# writexl::write_xlsx(isl_long_cleaned_final, './data/isl_long.xlsx')
+
+
+
+
+
+
   
+
