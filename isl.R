@@ -3,9 +3,9 @@ p_load(tidyverse, readxl, BradleyTerry2, ggtext, showtext, ggpattern,
        systemfonts, grid, magick)
 
 # Read in the data
-isl_raw <- read_excel("./data/Copy of isl_raw_data(1.9.9).xlsx")
-isl_raw2 <- isl_raw |> 
-  select(-time)
+# isl_raw <- read_excel("./data/Copy of isl_raw_data(1.9.9).xlsx")
+
+isl_long <- read_excel("./data/isl_long.xlsx")
 
 # is.na(isl_raw2) |> colSums() |> as.data.frame() |> View()
 
@@ -15,8 +15,10 @@ isl_raw2 <- isl_raw |>
 #   summarise(total_home_goals = sum(home_team_score))
   
 
-names(isl_raw2)
-dat <- isl_raw2[1:829, c(3,4,6,7)]
+# names(isl_raw2)
+dat <- isl_long[, c(1, 3:6)] |> 
+  distinct() |>
+  select(-date)
 
 standings <- dat |> 
   pivot_longer(cols = c(home_team, away_team), 
@@ -60,31 +62,35 @@ results <- dat |>
 # Fit the Bradley-Terry model
 model <- BTm(outcome = rep(1, nrow(results)), winner_fac, opponent_fac, data = results)
 
+model2 <- update(model, refcat = "Mohun Bagan Super Giant")
+
+
 # Summarize the model
 summary(model)
+summary(model2)
 
 # Extract coefficients
-coef_ATK <- 0  # Reference category ATK
-coef_NEFC <- coef(model)["..NorthEast United FC"]
-coef_HFC <- coef(model)["..Hyderabad FC"]
-coef_JFC <- coef(model)["..Jamshedpur FC"]
-coef_OFC <- coef(model)["..Odisha FC"]
-coef_BFC <- coef(model)["..Bengaluru FC"]
-coef_CFC <- coef(model)["..Chennaiyin FC"]
-coef_FCG <- coef(model)["..FC Goa"]
-coef_KBFC <- coef(model)["..Kerala Blasters FC"]
-coef_MCFC <- coef(model)["..Mumbai City FC"]
-coef_EBFC <- coef(model)["..East Bengal FC"]
-coef_MBSG <- coef(model)["..Mohun Bagan Super Giant"]
-coef_PFC <- coef(model)["..Punjab FC"]
+# coef_ATK <- 0  # Reference category ATK
+# coef_NEFC <- coef(model)["..NorthEast United FC"]
+# coef_HFC <- coef(model)["..Hyderabad FC"]
+# coef_JFC <- coef(model)["..Jamshedpur FC"]
+# coef_OFC <- coef(model)["..Odisha FC"]
+# coef_BFC <- coef(model)["..Bengaluru FC"]
+# coef_CFC <- coef(model)["..Chennaiyin FC"]
+# coef_FCG <- coef(model)["..FC Goa"]
+# coef_KBFC <- coef(model)["..Kerala Blasters FC"]
+# coef_MCFC <- coef(model)["..Mumbai City FC"]
+# coef_EBFC <- coef(model)["..East Bengal FC"]
+# coef_MBSG <- coef(model)["..Mohun Bagan Super Giant"]
+# coef_PFC <- coef(model)["..Punjab FC"]
 
 
 # Calculate strength parameters
-strengths <- model$coefficients |> 
+strengths <- model2$coefficients |> 
   as.data.frame() |>
   rownames_to_column(var = "Team") |>
-  add_row(Team = "..Atletico de Kolkata", `model$coefficients` = 0) |>
-  mutate(Strength = round(exp(`model$coefficients`), 3),
+  add_row(Team = "..Mohun Bagan Super Giant", `model2$coefficients` = 0) |>
+  mutate(Strength = round(exp(`model2$coefficients`), 3),
          Team = str_remove_all(Team, "\\..")) |> 
   select(Team, Strength) |>
   arrange(desc(Strength))
