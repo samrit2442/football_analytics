@@ -1,0 +1,85 @@
+---
+title: "Football Analytics using {worldfootballR}"
+format:
+  html:
+    html-math-method: katex
+  pdf:
+    number-sections: true
+    colorlinks: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Loading Packages
+
+```{r}
+library(pacman)
+p_load(tidyverse, readxl, worldfootballR)
+```
+
+# Get the Team data from URLs or Country Name
+
+```{r}
+epl_2020 <- tm_league_team_urls(country_name = "England", start_year = 2020)
+league_one_2024 <- tm_league_team_urls(start_year = 2024, league_url = "https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3")
+```
+
+```{r}
+nigeria_lg_2023 <- tm_league_team_urls(country_name = "Nigeria", start_year = 2023)
+nigeria_lg_2023 |> head()
+```
+
+# Get the Squad Statistics from Team URLs
+
+```{r}
+manu_team_2020 <- tm_squad_stats(team_url = epl_2020[4])
+manu_team_2020 |> head()
+```
+
+# Get the Staffs of a Team
+
+```{r}
+epl_managers <- tm_team_staff_urls(team_urls = epl_2020, staff_role = "Manager")
+epl_managers |> head()
+```
+
+# League Season Level Data
+
+```{r}
+epl_matchday_38_table <- tm_matchday_table(country_name = "England", start_year= "2023", matchday = 38)
+epl_matchday_38_table |> head()
+```
+
+```{r}
+laliga_matchday_38_table <- tm_matchday_table(country_name = "Spain", start_year= "2023", matchday = 38)
+laliga_matchday_38_table |> head()
+```
+
+# Expiring Contracts
+
+```{r}
+# laliga_expiring <- tm_expiring_contracts(country_name = "Spain", contract_end_year = 2022)
+# laliga_expiring
+```
+
+# League Injuries
+
+```{r}
+laliga_injuries <- tm_league_injuries(country_name = "Spain")
+laliga_injuries |> head()
+
+```
+
+```{r}
+isl_injuries <- tm_league_injuries(country_name = "India")
+isl_injuries |> head()
+```
+
+# Team Transfer Data
+
+```{r}
+man_utd_transfer_2020 <- tm_team_transfers(team_url = epl_2020[4], transfer_window = "all")
+man_utd_transfer_2020 |> head()
+```

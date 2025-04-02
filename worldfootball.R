@@ -7,9 +7,11 @@ dplyr::glimpse(mapped_players)
 
 team_urls <- tm_league_team_urls(country_name = "England", start_year = 2020)
 # if it's not a league in the stored leagues data in worldfootballR_data repo:
-league_one_teams <- tm_league_team_urls(start_year = 2020, league_url = "https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3")
+league_one_teams <- tm_league_team_urls(start_year = 2020, 
+                                        league_url = "https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3")
 
-team_urls_ind <- tm_league_team_urls(country_name = "India", start_year = 2024)
+team_urls_ind <- tm_league_team_urls(country_name = "India", 
+                                     start_year = 2024)
 isl_teams <- tm_league_team_urls(league_url = "https://www.transfermarkt.com/indian-super-league/startseite/wettbewerb/IND1", start_year = 2024)
 
 #----- for one team: -----#
