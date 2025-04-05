@@ -28,14 +28,17 @@ league_one_2024 <- tm_league_team_urls(start_year = 2024, league_url = "https://
 
 ```{r}
 nigeria_lg_2023 <- tm_league_team_urls(country_name = "Nigeria", start_year = 2023)
-nigeria_lg_2023 |> head()
+nigeria_lg_2023 |> 
+  head()
 ```
 
 # Get the Squad Statistics from Team URLs
 
 ```{r}
 manu_team_2020 <- tm_squad_stats(team_url = epl_2020[4])
-manu_team_2020 |> head()
+manu_team_2020 |> 
+  select(!contains('url')) |> 
+  head()
 ```
 
 # Get the Staffs of a Team
@@ -69,7 +72,6 @@ laliga_matchday_38_table |> head()
 ```{r}
 laliga_injuries <- tm_league_injuries(country_name = "Spain")
 laliga_injuries |> head()
-
 ```
 
 ```{r}
@@ -82,4 +84,133 @@ isl_injuries |> head()
 ```{r}
 man_utd_transfer_2020 <- tm_team_transfers(team_url = epl_2020[4], transfer_window = "all")
 man_utd_transfer_2020 |> head()
+```
+
+```{r}
+nigeria_lg_2023 |> head()
+
+npfl_matchday_38_table <- tm_matchday_table(country_name = "Nigeria", start_year = "2023", matchday = 38)
+npfl_matchday_38_table |> head()
+
+enugu_rangers_2023 <- tm_squad_stats(team_url = nigeria_lg_2023[13])
+enugu_rangers_2023 |> head()
+```
+
+## Statistical Analysis
+
+### Top Scorer
+
+```{r}
+top_scorer <- enugu_rangers_2023 |> 
+  filter(goals == max(goals)) |> 
+  pull(player_name)
+top_scorer
+
+most_played <- enugu_rangers_2023 |> 
+  filter(minutes_played == max(minutes_played)) |> 
+  select(player_name, player_pos, player_age, minutes_played)
+most_played
+```
+
+# ISL data analysis
+
+```{r}
+#| eval: false
+#| include: true
+# R codes
+isl_long <- read_excel("./data/isl_long.xlsx")
+
+# Data Preparation
+dat <- isl_long[, c(1, 3:6)] |> 
+  distinct() |>
+  select(-date)
+
+
+# Create the result dataset
+results <- dat |> 
+  filter(away_team != 'M') |> 
+  mutate(
+    winner = ifelse(home_team_score > away_team_score, home_team,
+                    ifelse(away_team_score > home_team_score, away_team, "Draw")),
+    opponent = ifelse(winner == home_team, away_team,
+                      ifelse(winner == away_team, home_team, NA))) |> 
+  filter(winner != "Draw") |> 
+  select(winner, opponent) |> 
+  mutate(winner_fac = factor(winner, levels = unique(c(winner, opponent))),
+         opponent_fac = factor(opponent, levels = unique(c(winner, opponent))))
+
+
+# Build Bradley-Terry Model
+model <- BTm(outcome = rep(1, nrow(results)), winner_fac, opponent_fac, data = results)
+
+model2 <- update(model, refcat = "Mohun Bagan Super Giant")
+
+# Summarize the model
+summary(model)
+summary(model2)
+
+strengths <- model2$coefficients |> 
+  as.data.frame() |>
+  rownames_to_column(var = "Team") |>
+  add_row(Team = "..Mohun Bagan Super Giant", `model2$coefficients` = 0) |>
+  mutate(Strength = round(exp(`model2$coefficients`), 3),
+         Team = str_remove_all(Team, "\\..")) |> 
+  select(Team, Strength) |>
+  arrange(desc(Strength))
+
+
+# Define the color
+col1 <- c("#005830", "#6babdc", "#29479f", "#f47b2c", "#bf3428",
+          "#a6234f", "#f8ec4a", "#2b2a71", "#8769cc", "#1c4792",
+          "#fddb00", "#623d94", "#db4a27", "#e12529", "#f32735")
+
+col2 <- c("#a82d32", "#ffffff", "#ed212a", "#1c2453", "#2b3558",
+          "#394a7f", "#013ca6", "#e30613", "#1e2a5c", "#fcb813",
+          "#231f20", "#f6991f", "#ae2f24", "#313846", "#ff9e18")
+
+
+logos <- c("mbsg", "mcfc", "bfc", "fcg", "atk", "jfc",
+            "kbfc", "ddfc", "ofc", "cfc", "hfc", "pcfc",
+            "pfc", "neufc", "ebfc")
+
+
+team_logos <- paste0("<img src='./logos/", logos, ".png' width='30' height='30'/>")
+
+strengths <- strengths |>
+  dplyr::mutate(gradient_start = col1,
+                gradient_end = col2,
+                orient = 'horizontal',
+                logos = team_logos)
+
+isl_plot <- ggplot(strengths, aes(x = reorder(Team, Strength), y = Strength, fill = Team)) +
+  geom_bar_pattern(
+    aes(pattern_fill = I(gradient_start), 
+        pattern_fill2 = I(gradient_end),
+        pattern_orientation = I(orient)),
+    stat = 'identity',
+    pattern = "gradient",
+    color = 'black') +
+  coord_flip() +
+  scale_x_discrete(name = NULL, labels = rev(strengths$logos)) +
+  theme(legend.position = "none",
+        text = element_text(family = "poppins"),
+        # axis.text.y = element_text(size = 16, face = "bold"),
+        axis.title.y = element_text(size = 18),
+        axis.title.x = element_text(size = 18),
+        plot.title = element_text(size = 25, hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(size = 20, hjust = 0.5, face = "bold"),
+        plot.caption = element_text(size = 15),
+        # axis.text.x = element_text(size = 20),
+        axis.text.y = element_markdown(),
+        # plot.background = element_rect(fill = "#fdd3d3", color = NA),
+        # panel.background = element_rect(fill = "#c7faaf", color = NA),
+        panel.grid.minor = element_line(colour = "gray40")) +
+  geom_text(aes(label = round(Strength, 2)), hjust = -0.1, size = 6.5) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 1) +
+  labs(title = "ISL Teams' Strength Rankings Based on Bradley-Terry Model",
+       subtitle = "Analyzing Team Performance through Statistical Ranking",
+       x = "ISL Teams", 
+       y = "Strength",
+       caption = "Data collected till ISL Season 2023-24")
+
 ```

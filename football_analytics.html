@@ -286,34 +286,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 4 https://www.transfermarkt.com/indian-super-league/startseite/wettbewerb/IND1
 5 https://www.transfermarkt.com/indian-super-league/startseite/wettbewerb/IND1
 6 https://www.transfermarkt.com/indian-super-league/startseite/wettbewerb/IND1
-      player_name
-1     Madih Talal
-2    Hijazi Maher
-3 Mohammed Kadiri
-4     Roy Krishna
-5    Akash Mishra
-6  Ayush Chhikara
+       player_name
+1      Madih Talal
+2     Hijazi Maher
+3 Iker Guarrotxena
+4     Akash Mishra
+5   Ayush Chhikara
+6      Roy Krishna
                                                            player_url
 1     https://www.transfermarkt.com/madih-talal/profil/spieler/518860
 2    https://www.transfermarkt.com/hijazi-maher/profil/spieler/949858
-3 https://www.transfermarkt.com/mohammed-kadiri/profil/spieler/442942
-4      https://www.transfermarkt.com/roy-krishna/profil/spieler/64495
-5    https://www.transfermarkt.com/akash-mishra/profil/spieler/642347
-6  https://www.transfermarkt.com/ayush-chhikara/profil/spieler/761693
-            position            current_club age nationality second_nationality
-1 Attacking Midfield          East Bengal FC  27      France            Morocco
-2        Centre-Back          East Bengal FC  27      Jordan               &lt;NA&gt;
-3 Defensive Midfield Mohammedan SC (Kolkata)  29       Ghana               &lt;NA&gt;
-4     Centre-Forward               Odisha FC  37        Fiji        New Zealand
-5          Left-Back          Mumbai City FC  23       India               &lt;NA&gt;
-6     Centre-Forward          Mumbai City FC  22       India               &lt;NA&gt;
+3 https://www.transfermarkt.com/iker-guarrotxena/profil/spieler/82471
+4    https://www.transfermarkt.com/akash-mishra/profil/spieler/642347
+5  https://www.transfermarkt.com/ayush-chhikara/profil/spieler/761693
+6      https://www.transfermarkt.com/roy-krishna/profil/spieler/64495
+            position   current_club age nationality second_nationality
+1 Attacking Midfield East Bengal FC  27      France            Morocco
+2        Centre-Back East Bengal FC  27      Jordan               &lt;NA&gt;
+3        Left Winger         FC Goa  32       Spain               &lt;NA&gt;
+4          Left-Back Mumbai City FC  23       India               &lt;NA&gt;
+5     Centre-Forward Mumbai City FC  22       India               &lt;NA&gt;
+6     Centre-Forward      Odisha FC  37        Fiji        New Zealand
                     injury injured_since injured_until player_market_value
 1              Knee injury    2024-12-13          &lt;NA&gt;                  NA
 2 Cruciate ligament injury    2025-01-29          &lt;NA&gt;                  NA
-3 Collateral ligament tear    2024-09-08          &lt;NA&gt;                  NA
-4 Cruciate ligament injury    2024-11-25          &lt;NA&gt;                  NA
-5 Cruciate ligament injury    2024-04-25          &lt;NA&gt;                  NA
-6              Knee injury    2024-03-09          &lt;NA&gt;                  NA</code></pre>
+3              Knee injury    2024-03-09          &lt;NA&gt;                  NA
+4 Cruciate ligament injury    2024-04-25          &lt;NA&gt;                  NA
+5              Knee injury    2024-03-09          &lt;NA&gt;                  NA
+6 Cruciate ligament injury    2024-11-25          &lt;NA&gt;                  NA</code></pre>
 </div>
 </div>
 </section>
@@ -367,6 +367,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6       NA          NA    NA             NA</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nigeria_lg_2023 <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "https://www.transfermarkt.com/kano-pillars/startseite/verein/6799/saison_id/2023"     
+[2] "https://www.transfermarkt.com/enyimba-aba/startseite/verein/645/saison_id/2023"       
+[3] "https://www.transfermarkt.com/remo-stars-fc/startseite/verein/60222/saison_id/2023"   
+[4] "https://www.transfermarkt.com/lobi-stars-fc/startseite/verein/6907/saison_id/2023"    
+[5] "https://www.transfermarkt.com/shooting-stars-sc/startseite/verein/5739/saison_id/2023"
+[6] "https://www.transfermarkt.com/rivers-united-fc/startseite/verein/53321/saison_id/2023"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>npfl_matchday_38_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">country_name =</span> <span class="st">"Nigeria"</span>, <span class="at">start_year =</span> <span class="st">"2023"</span>, <span class="at">matchday =</span> <span class="dv">38</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>npfl_matchday_38_table <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  country                                                          league
+1 Nigeria Games of Matchday 38 Nigeria Professional Football League 23/24
+2 Nigeria Games of Matchday 38 Nigeria Professional Football League 23/24
+3 Nigeria Games of Matchday 38 Nigeria Professional Football League 23/24
+4 Nigeria Games of Matchday 38 Nigeria Professional Football League 23/24
+5 Nigeria Games of Matchday 38 Nigeria Professional Football League 23/24
+6 Nigeria Games of Matchday 38 Nigeria Professional Football League 23/24
+  matchday rk          squad  p  w d  l gf ga g_diff pts
+1       38  1  Enugu Rangers 38 21 7 10 56 33     23  70
+2       38  2  Remo Stars FC 38 20 5 13 53 39     14  65
+3       38  3    Enyimba Aba 38 19 6 13 46 33     13  63
+4       38  4 Shooting Stars 38 18 8 12 48 34     14  62
+5       38  5 Plateau United 38 18 4 16 53 40     13  58
+6       38  6     Lobi Stars 38 17 7 14 48 45      3  58</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>enugu_rangers_2023 <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> nigeria_lg_2023[<span class="dv">13</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in data.frame(team_name = as.character(team_name), league =
+as.character(league), : NAs introduced by coercion</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>enugu_rangers_2023 <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          team_name                               league country    player_name
+1 Enugu Rangers IFC Nigeria Professional Football League Nigeria Detan Ogundare
+2 Enugu Rangers IFC Nigeria Professional Football League Nigeria   Chizoba Okoh
+3 Enugu Rangers IFC Nigeria Professional Football League Nigeria     Nana Bonsu
+4 Enugu Rangers IFC Nigeria Professional Football League Nigeria  Emeka Nwabulu
+5 Enugu Rangers IFC Nigeria Professional Football League Nigeria   Japhet Opubo
+6 Enugu Rangers IFC Nigeria Professional Football League Nigeria  Kingdom Osayi
+                                                          player_url player_pos
+1 https://www.transfermarkt.com/detan-ogundare/profil/spieler/647953 Goalkeeper
+2  https://www.transfermarkt.com/chizoba-okoh/profil/spieler/1108150 Goalkeeper
+3     https://www.transfermarkt.com/nana-bonsu/profil/spieler/282025 Goalkeeper
+4  https://www.transfermarkt.com/emeka-nwabulu/profil/spieler/869561 Goalkeeper
+5   https://www.transfermarkt.com/japhet-opubo/profil/spieler/677862 Goalkeeper
+6  https://www.transfermarkt.com/kingdom-osayi/profil/spieler/720747 Goalkeeper
+  player_age nationality in_squad appearances goals minutes_played
+1         22     Nigeria       24           9     0            810
+2         20     Nigeria        4           0     0              0
+3         34       Ghana        0           0     0              0
+4         26     Nigeria        0           0     0              0
+5         28     Nigeria       34          29     0           2610
+6         NA     Nigeria        0           0     0              0</code></pre>
+</div>
+</div>
+<section id="statistical-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-analysis">Statistical Analysis</h2>
+<section id="top-scorer" class="level3">
+<h3 class="anchored" data-anchor-id="top-scorer">Top Scorer</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>top_scorer <span class="ot">&lt;-</span> enugu_rangers_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(goals <span class="sc">==</span> <span class="fu">max</span>(goals)) <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(player_name)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>top_scorer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Godwin Obaje"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>most_played <span class="ot">&lt;-</span> enugu_rangers_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(minutes_played <span class="sc">==</span> <span class="fu">max</span>(minutes_played)) <span class="sc">|&gt;</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(player_name, player_pos, player_age)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>most_played</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        player_name  player_pos player_age
+1 Ifeanyi Onyebuchi Centre-Back         23</code></pre>
+</div>
+</div>
+</section>
+</section>
 </section>
 
 </main>
